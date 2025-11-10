@@ -1,19 +1,18 @@
-// --- LÓGICA DO MENU HAMBÚRGUER ---
 const hamburgerBtn = document.querySelector('.hamburger-menu');
 const navLinks = document.querySelector('.nav-links');
 
 hamburgerBtn.addEventListener('click', () => {
-    // Alterna a classe 'active' no menu
+    
     navLinks.classList.toggle('active');
     
-    // Muda o ícone
+    
     const icon = hamburgerBtn.querySelector('i');
     if (navLinks.classList.contains('active')) {
         icon.classList.remove('fa-bars');
-        icon.classList.add('fa-times'); // Ícone de "X"
+        icon.classList.add('fa-times'); // Ícone de x para sair
     } else {
         icon.classList.remove('fa-times');
-        icon.classList.add('fa-bars'); // Ícone de "☰"
+        icon.classList.add('fa-bars'); //Barra do icone para celular
     }
 });
 
@@ -59,11 +58,8 @@ timeSlots.forEach(timeButton => {
         selectedTimeButton = timeButton;
     });
 });
-
-
-// --- LÓGICA DE ENVIO DO FORMULÁRIO ---
 const form = document.getElementById('booking-form');
-const scriptURL = 'COLE_AQUI_A_NOVA_URL_DO_SEU_APP_DA_WEB'; // <-- LEMBRE-SE DE TROCAR SUA URL AQUI
+const scriptURL = 'https://script.google.com/macros/s/AKfycbxI9LPVryzpjrD3IBbb7gSrv0C-tpW0Xcre-6u6M52I0PdrTjd5LAeQznbmSINsZePs/exec';
 
 form.addEventListener('submit', e => {
     e.preventDefault();
