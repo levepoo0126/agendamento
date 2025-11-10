@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedConsult | Agendamento de Consultas Online</title>
     
-    <link rel="stylesheet" href="css.css">
-    
+    <link rel="stylesheet" href="css.css"> 
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
@@ -15,6 +14,11 @@
     <nav class="navbar">
         <div class="container">
             <a href="#" class="logo">MedConsult</a>
+            
+            <button class="hamburger-menu" aria-label="Abrir menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
             <ul class="nav-links">
                 <li><a href="#inicio">Início</a></li>
                 <li><a href="#especialidades">Especialidades</a></li>
@@ -63,7 +67,7 @@
                 <h3 class="step-title">1. Escolha a data e o horário</h3>
                 <div class="booking-calendar-layout">
                     <div class="calendar-container">
-                        <div class="calendar-header" id="calendar-month-year">Outubro 2025</div>
+                        <div class="calendar-header" id="calendar-month-year">Dezembro 2025</div>
                         <div class="calendar-days">
                             <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
                             <button disabled>28</button><button disabled>29</button><button disabled>30</button>
@@ -90,19 +94,21 @@
                     <form class="booking-form" id="booking-form">
                         <input type="hidden" id="selected_date" name="selected_date">
                         <input type="hidden" id="selected_time" name="selected_time">
+                        
+                        <input type="hidden" id="timestamp_pedido" name="timestamp_pedido">
 
                         <input type="text" name="name" placeholder="Nome Completo do Paciente" required>
                         <input type="email" name="email" placeholder="Seu melhor e-mail para contato" required>
                         <input type="tel" name="phone" placeholder="Telefone (com DDD)" required>
+                        
                         <select name="specialty" required>
                             <option value="" disabled selected>Selecione a Especialidade</option>
                             <option value="cardiologia">Cardiologia</option>
                             <option value="clinica-geral">Clínica Geral</option>
-                             <option value="Nutrição">Nutrição</option>
-                             <option value="pediatria">Pediatria</option>
+                            <option value="Nutrição">Nutrição</option>
+                            <option value="pediatria">Pediatria</option>
                             <option value="Odontologia">Odontologia</option>
                             <option value="Fisioterapia">Fisioterapia</option>
-                           
                         </select>
                         <button type="submit" class="btn-submit">Solicitar Agendamento</button>
                     </form>

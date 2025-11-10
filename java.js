@@ -1,19 +1,49 @@
-// --- Interatividade do Calendário ---
-// Usando 'const' para valores que não mudam
+// --- LÓGICA DO MENU HAMBÚRGUER ---
+const hamburgerBtn = document.querySelector('.hamburger-menu');
+const navLinks = document.querySelector('.nav-links');
+
+hamburgerBtn.addEventListener('click', () => {
+    // Alterna a classe 'active' no menu
+    navLinks.classList.toggle('active');
+    
+    // Muda o ícone
+    const icon = hamburgerBtn.querySelector('i');
+    if (navLinks.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times'); // Ícone de "X"
+    } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars'); // Ícone de "☰"
+    }
+});
+
+// Fecha o menu ao clicar em um link
+navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+            // Reseta o ícone
+            hamburgerBtn.querySelector('i').classList.remove('fa-times');
+            hamburgerBtn.querySelector('i').classList.add('fa-bars');
+        }
+    });
+});
+
+
+// --- LÓGICA DO CALENDÁRIO ---
 const availableDays = document.querySelectorAll('.calendar-days .available');
 const timeSlots = document.querySelectorAll('.time-slots button:not(:disabled)');
 const hiddenDateInput = document.getElementById('selected_date');
 const hiddenTimeInput = document.getElementById('selected_time');
 const calendarMonthYear = document.getElementById('calendar-month-year').textContent;
 
-// Usando 'forEach' com arrow function '=>' (mais curto)
+// Variável para guardar o botão de hora selecionado
+let selectedTimeButton = null;
+
 availableDays.forEach(dayButton => {
     dayButton.addEventListener('click', () => {
-        // Remove 'selected' de outros dias
         availableDays.forEach(btn => btn.classList.remove('selected'));
-        // Adiciona 'selected' ao clicado
         dayButton.classList.add('selected');
-        // Atualiza o input escondido
         const day = dayButton.textContent;
         hiddenDateInput.value = `${day} de ${calendarMonthYear}`;
     });
@@ -21,19 +51,19 @@ availableDays.forEach(dayButton => {
 
 timeSlots.forEach(timeButton => {
     timeButton.addEventListener('click', () => {
-        // Remove 'selected' de outros horários
         timeSlots.forEach(btn => btn.classList.remove('selected'));
-        // Adiciona 'selected' ao clicado
         timeButton.classList.add('selected');
-        // Atualiza o input escondido
         hiddenTimeInput.value = timeButton.textContent;
+        
+        // Guarda a referência do botão clicado
+        selectedTimeButton = timeButton;
     });
 });
 
-// --- Lógica de Envio para o Google Sheets ---
+
+// --- LÓGICA DE ENVIO DO FORMULÁRIO ---
 const form = document.getElementById('booking-form');
-// <-- PONTO CRÍTICO: SUBSTITUIR PELA SUA URL.
-const scriptURL = 'https://script.google.com/macros/s/AKfycbxI9LPVryzpjrD3IBbb7gSrv0C-tpW0Xcre-6u6M52I0PdrTjd5LAeQznbmSINsZePs/exec'; 
+const scriptURL = 'COLE_AQUI_A_NOVA_URL_DO_SEU_APP_DA_WEB'; // <-- LEMBRE-SE DE TROCAR SUA URL AQUI
 
 form.addEventListener('submit', e => {
     e.preventDefault();
@@ -42,6 +72,11 @@ form.addEventListener('submit', e => {
         alert('Por favor, selecione um dia e um horário disponíveis.');
         return;
     }
+
+    // Adiciona o timestamp do momento do pedido
+    const dataDoPedido = new Date().toLocaleString('pt-BR');
+    document.getElementById('timestamp_pedido').value = dataDoPedido;
+
 
     const submitButton = form.querySelector('.btn-submit');
     submitButton.disabled = true;
@@ -52,10 +87,27 @@ form.addEventListener('submit', e => {
             if (response.ok) {
                 alert('Agendamento enviado com sucesso! Entraremos em contato para confirmar.');
                 form.reset();
-                // Limpa seleções
-                document.querySelectorAll('.calendar-days .selected, .time-slots .selected').forEach(el => {
-                    el.classList.remove('selected');
-                });
+
+                // --- LÓGICA DE BLOQUEIO VISUAL ---
+
+                // 1. Bloqueia o botão de HORA que foi agendado
+                if (selectedTimeButton) {
+                    selectedTimeButton.classList.remove('selected');
+                    selectedTimeButton.disabled = true; // Desabilita
+                    selectedTimeButton.textContent = 'Agendado'; // Muda o texto
+                }
+                
+                // 2. Apenas limpa a seleção do DIA
+                const diaAgendado = document.querySelector('.calendar-days button.selected');
+                if (diaAgendado) {
+                    diaAgendado.classList.remove('selected');
+                }
+
+                // 3. Limpa os inputs hidden para evitar reenvio
+                hiddenDateInput.value = '';
+                hiddenTimeInput.value = '';
+                selectedTimeButton = null; // Limpa a referência
+
             } else {
                 throw new Error('Houve um problema com a resposta do servidor.');
             }

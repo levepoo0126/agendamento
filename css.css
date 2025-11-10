@@ -32,10 +32,9 @@ body {
     padding: 15px 0;
 }
 
-/* 1. Usando Flexbox para alinhar logo (esquerda) e links (direita) */
 .navbar .container {
     display: flex;
-    justify-content: space-between; /* Mágico! */
+    justify-content: space-between; /* Alinha itens */
     align-items: center;
 }
 
@@ -44,18 +43,12 @@ body {
     font-weight: 700;
     color: #0A3d62;
     text-decoration: none;
-    /* Não precisa de float */
 }
 
 .nav-links {
     list-style: none;
-    display: flex; /* 2. Alinha os <li> em linha */
-    gap: 30px; /* 3. Espaçamento entre os links (substitui margin-left) */
-    /* Não precisa de float */
-}
-
-.nav-links li {
-    /* Não precisa de float nem margin */
+    display: flex; /* Alinha os <li> em linha */
+    gap: 30px; /* Espaçamento entre os links */
 }
 
 .nav-links a {
@@ -94,11 +87,10 @@ body {
 .specialties-section { background-color: #f0f5f9; }
 
 .specialties-cards {
-    display: flex; /* 1. USA FLEXBOX */
-    justify-content: center; /* 2. Centraliza os cards */
-    flex-wrap: wrap; /* 3. Permite que quebrem a linha em telas menores */
-    gap: 30px; /* 4. Espaçamento entre os cards */
-    /* Não precisa de text-align: center */
+    display: flex; 
+    justify-content: center; 
+    flex-wrap: wrap; /* Permite que quebrem a linha em telas menores */
+    gap: 30px; /* Espaçamento entre os cards */
 }
 
 .card {
@@ -108,10 +100,9 @@ body {
     text-align: center;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     transition: box-shadow 0.3s ease;
-    flex-basis: 300px; /* 5. Largura base (substitui width) */
-    flex-grow: 1; /* Permite que cresçam se houver espaço */
-    max-width: 350px; /* Limite de largura */
-    /* Não precisa de display: inline-block, margin, etc */
+    flex-basis: 300px; /* Largura base */
+    flex-grow: 1; 
+    max-width: 350px; 
 }
 .card:hover { box-shadow: 0 15px 30px rgba(60, 99, 130, 0.15); }
 .card-icon { font-size: 3em; color: #3c6382; margin-bottom: 20px; }
@@ -128,34 +119,30 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     margin-bottom: 50px;
     
-    display: flex; /* 1. USA FLEXBOX */
-    flex-wrap: wrap; /* 2. Permite quebrar em telas menores */
-    gap: 30px; /* 3. Espaçamento */
-    /* Não precisa de overflow: auto */
+    display: flex; 
+    flex-wrap: wrap; /* Permite quebrar em telas menores */
+    gap: 30px; /* Espaçamento */
 }
 
 .calendar-container,
 .time-slots-container {
-    flex: 1; /* 4. Divide o espaço igualmente */
-    min-width: 300px; /* 5. Garante que quebrem a linha corretamente */
-    /* Não precisa de float, width: 50%, etc */
+    flex: 1; /* Divide o espaço igualmente */
+    min-width: 300px; /* Garante que quebrem a linha corretamente */
 }
 
 .calendar-header { text-align: center; font-size: 1.2em; font-weight: 600; color: #0A3d62; margin-bottom: 20px; }
 
-/* 1. Usando GRID para o calendário! (Perfeito para isso) */
+/* Usando GRID para o calendário */
 .calendar-days {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 2. Cria 7 colunas iguais */
-    gap: 4px; /* 3. Espaçamento entre os dias */
-    /* Não precisa de overflow: auto */
+    grid-template-columns: repeat(7, 1fr); /* Cria 7 colunas iguais */
+    gap: 4px; /* Espaçamento entre os dias */
 }
 
 .calendar-days span,
 .calendar-days button {
     text-align: center;
     padding: 10px 5px;
-    /* Não precisa de float, width: 14.28%, margin, etc */
 }
 
 .calendar-days span { font-weight: 600; color: #555; }
@@ -174,18 +161,15 @@ body {
 .calendar-days button.available:hover { border-color: #3c6382; background-color: #dbe7f0; }
 .calendar-days button.selected { background-color: #0A3d62; color: #ffffff; border-color: #0A3d62; }
 
-/* 1. Usando Flexbox para os horários */
+/* Usando Flexbox para os horários */
 .time-slots {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* 2. Centraliza os botões */
-    gap: 10px; /* 3. Espaçamento */
+    justify-content: center; /* Centraliza os botões */
+    gap: 10px; /* Espaçamento */
 }
 
 .time-slots button {
-    /* display: inline-block; */ /* Não precisa */
-    /* width: 120px; */ /* Não precisa, o padding resolve */
-    /* margin: 5px; */ /* Não precisa */
     padding: 12px 20px; /* Mais flexível que largura fixa */
     border: 2px solid #f0f5f9;
     color: #3c6382;
@@ -211,11 +195,10 @@ body {
 .testimonials-section { background-color: #f0f5f9; }
 
 .testimonials-grid {
-    display: flex; /* 1. USA FLEXBOX */
+    display: flex; 
     justify-content: center;
     flex-wrap: wrap;
-    gap: 30px; /* 2. Espaçamento */
-    /* Não precisa de text-align: center */
+    gap: 30px; /* Espaçamento */
 }
 
 .testimonial-card {
@@ -224,10 +207,9 @@ body {
     border-radius: 10px;
     border-left: 5px solid #3c6382;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    flex-basis: 300px; /* 3. Largura base */
+    flex-basis: 300px; /* Largura base */
     flex-grow: 1;
-    max-width: 450px; /* Limite */
-    /* Não precisa de display: inline-block, margin, etc */
+    max-width: 450px; 
     text-align: left;
 }
 .testimonial-card p { font-style: italic; margin-bottom: 15px; }
@@ -238,18 +220,10 @@ body {
 
 .footer-content {
     margin-bottom: 40px;
-    display: flex; /* 1. USA FLEXBOX */
-    flex-wrap: wrap; /* 2. Permite quebrar em telas menores */
-    justify-content: space-between; /* 3. Espaçamento */
-    gap: 30px; /* 4. Espaçamento */
-    /* Não precisa de overflow: auto */
-}
-
-.footer-info,
-.footer-links,
-.footer-contact {
-    /* Não precisa de float, width, padding-left */
-    /* O Flexbox cuida do layout */
+    display: flex; 
+    flex-wrap: wrap; /* Permite quebrar em telas menores */
+    justify-content: space-between; 
+    gap: 30px; /* Espaçamento */
 }
 
 .footer-content h3, .footer-content h4 { color: #ffffff; margin-bottom: 15px; }
@@ -258,10 +232,57 @@ body {
 .footer-links a:hover { color: #ffffff; text-decoration: underline; }
 .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid #3c6382; font-size: 0.9em; }
 
-/* --- Responsividade --- */
-/*
-    A boa notícia: usando Flexbox/Grid com 'flex-wrap' e 'gap',
-    a maior parte da responsividade é GRÁTIS!
-    O @media (max-width: 768px) que você tinha não é mais necessário,
-    pois os itens (calendário, rodapé) vão quebrar a linha sozinhos.
-*/
+
+/* --- RESPONSIVIDADE (Menu Hambúrguer) --- */
+
+/* Estilo do ícone hambúrguer (escondido por padrão) */
+.hamburger-menu {
+    display: none; /* Escondido em telas grandes */
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    color: #0A3d62;
+    cursor: pointer;
+}
+
+/* Regras para telas pequenas (tablets e celulares) */
+@media (max-width: 768px) {
+    
+    /* 1. Mostra o ícone hambúrguer */
+    .hamburger-menu {
+        display: block;
+    }
+
+    /* 2. Esconde o menu de links normal */
+    .nav-links {
+        display: none; 
+        flex-direction: column; /* Links em coluna */
+        gap: 20px;
+        
+        /* Ocupa a tela toda */
+        position: absolute;
+        top: 70px; /* Altura da navbar */
+        left: 0;
+        width: 100%;
+        background-color: #ffffff;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    /* 3. A classe 'active' que o JS vai adicionar */
+    .nav-links.active {
+        display: flex; /* MOSTRA o menu */
+    }
+
+    /* 4. Ajustes finos de fonte e preenchimento */
+    .hero h1 {
+        font-size: 2.5em; /* Diminui o título principal */
+    }
+    .section h2 {
+        font-size: 2em; /* Diminui títulos de seção */
+    }
+    .section {
+        padding: 60px 0; /* Menos espaçamento */
+    }
+}
