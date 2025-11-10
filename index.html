@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConsult | Agendamento de Consultas Online</title>
+    
+    <style>
+        /* Importa a fonte do Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        /* Reset básico de margens e paddings */
+        body, h1, h2, h3, h4, p, ul {
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Todos os elementos usam 'border-box' para facilitar o layout */
+        * { 
+            box-sizing: border-box; 
+        }
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #ffffff; 
+            color: #555; 
+            line-height: 1.6; 
+        }
+        
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+        }
+        
+        /* Navbar com 'position: sticky' */
+        .navbar { 
+            position: sticky; 
+            top: 0; 
+            width: 100%; 
+            background-color: #ffffff; /* Fundo sólido, sem blur */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            z-index: 1000; 
+            padding: 15px 0; 
+        }
+        
+        /* Usando overflow: auto para conter os floats (clearfix hack) */
+        .navbar .container { 
+            overflow: auto;
+            width: 100%;
+        }
+        
+        .logo { 
+            font-size: 1.8em; 
+            font-weight: 700; 
+            color: #0A3d62; 
+            text-decoration: none; 
+            float: left; /* Logo flutua à esquerda */
+        }
+        
+        .nav-links { 
+            list-style: none; 
+            float: right; /* Menu flutua à direita */
+        }
+        
+        .nav-links li { 
+            margin-left: 30px; 
+            float: left; /* Itens do menu flutuam à esquerda */
+        }
+        
+        .nav-links a { 
+            text-decoration: none; 
+            color: #0A3d62; 
+            font-weight: 400; 
+            transition: color 0.3s ease; 
+        }
+        .nav-links a:hover { color: #3c6382; }
+        
+        .hero { 
+            background: linear-gradient(rgba(10, 61, 98, 0.7), rgba(10, 61, 98, 0.7)), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070') center/cover no-repeat; 
+            color: #ffffff; 
+            text-align: center; 
+            padding: 120px 20px; 
+        }
+        .hero h1 { font-size: 3.2em; margin-bottom: 20px; line-height: 1.2; }
+        .hero p { font-size: 1.2em; max-width: 600px; margin: 0 auto 30px; opacity: 0.9; }
+        
+        .btn-cta { 
+            background-color: #3c6382; 
+            color: #ffffff; 
+            padding: 15px 35px; 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: 600; 
+            transition: background-color 0.3s ease; /* Transição mais simples */
+            display: inline-block; 
+        }
+        .btn-cta:hover { 
+            background-color: #4a7394; /* Efeito hover mais simples */
+        }
+        
+        /* Estilo padrão para todas as seções (agora .section) */
+        .section { padding: 80px 0; }
+        .section h2 { text-align: center; font-size: 2.5em; color: #0A3d62; margin-bottom: 60px; }
+        
+        .specialties-section { background-color: #f0f5f9; }
+        
+        /* Layout dos cards de especialidades com 'inline-block' */
+        .specialties-cards { 
+            text-align: center; /* Centraliza os blocos */
+        }
+        .card { 
+            background: #ffffff; 
+            padding: 40px; 
+            border-radius: 10px; 
+            text-align: center; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+            transition: box-shadow 0.3s ease; /* Transição mais simples */
+            display: inline-block; /* Em vez de grid */
+            width: 300px; /* Largura fixa */
+            margin: 15px;
+            vertical-align: top;
+        }
+        .card:hover { 
+            box-shadow: 0 15px 30px rgba(60, 99, 130, 0.15); /* Efeito "elevar" removido */
+        }
+        .card-icon { font-size: 3em; color: #3c6382; margin-bottom: 20px; }
+        .card h3 { color: #0A3d62; margin-bottom: 15px; }
+        
+        .booking-steps { max-width: 900px; margin: 0 auto; }
+        .step-title { color: #0A3d62; margin-bottom: 15px; padding-left: 10px; border-left: 3px solid #3c6382; }
+        
+        /* Layout do calendário com 'float' */
+        .booking-calendar-layout { 
+            background-color: #ffffff; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08); 
+            margin-bottom: 50px; 
+            overflow: auto; /* Clearfix hack */
+        }
+        .calendar-container { 
+            float: left; /* Flutua à esquerda */
+            width: 50%;
+            min-width: 300px; 
+            padding-right: 20px;
+        }
+        .calendar-header { text-align: center; font-size: 1.2em; font-weight: 600; color: #0A3d62; margin-bottom: 20px; }
+        
+        /* Grade do calendário com 'float' */
+        .calendar-days {
+             overflow: auto; /* Clearfix hack */
+        } 
+        .calendar-days span { 
+            float: left; /* Usa float em vez de grid */
+            width: 14.28%; /* 100 / 7 */
+            text-align: center; 
+            font-weight: 600; 
+            color: #555; 
+            padding: 10px 0; 
+        }
+        .calendar-days button { 
+            float: left; /* Usa float em vez de grid */
+            width: 14.28%; /* 100 / 7 */
+            border: 2px solid transparent; 
+            background-color: #f0f0f0; 
+            padding: 12px 5px; 
+            cursor: pointer; 
+            border-radius: 8px; 
+            transition: all 0.3s ease; 
+            font-family: 'Poppins', sans-serif; 
+            font-size: 1em; 
+            margin: 2px 0; /* Simula o 'gap' */
+        }
+        .calendar-days button:disabled { background-color: transparent; color: #ccc; cursor: default; }
+        .calendar-days button.available { background-color: #f0f5f9; color: #3c6382; font-weight: 600; }
+        .calendar-days button.available:hover { border-color: #3c6382; background-color: #dbe7f0; }
+        .calendar-days button.selected { background-color: #0A3d62; color: #ffffff; border-color: #0A3d62; }
+        
+        .time-slots-container { 
+            float: left; /* Flutua à esquerda */
+            width: 50%;
+            min-width: 300px; 
+            padding-left: 20px;
+        }
+        
+        /* Horários com 'inline-block' */
+        .time-slots { 
+            text-align: center;
+        } 
+        .time-slots button { 
+            display: inline-block; /* Em vez de grid */
+            width: 120px;
+            margin: 5px; /* Simula o 'gap' */
+            padding: 12px; 
+            border: 2px solid #f0f5f9; 
+            color: #3c6382; 
+            background: transparent; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            transition: all 0.3s ease; 
+        }
+        .time-slots button:hover:not(:disabled) { border-color: #3c6382; background-color: #f0f5f9; }
+        .time-slots button:disabled { background-color: #f0f0f0; color: #aaa; border-color: #f0f0f0; cursor: not-allowed; text-decoration: line-through; }
+        .time-slots button.selected { background-color: #0A3d62; color: #ffffff; border-color: #0A3d62; }
+        
+        .booking-form-container { background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .booking-form input, .booking-form select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 1em; transition: all 0.3s ease; }
+        .booking-form input:focus, .booking-form select:focus { outline: none; border-color: #3c6382; box-shadow: 0 0 8px rgba(60, 99, 130, 0.2); }
+        .btn-submit { width: 100%; padding: 15px; background-color: #3c6382; color: #ffffff; border: none; border-radius: 8px; font-size: 1.1em; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .btn-submit:hover { background-color: #0A3d62; }
+        
+        .testimonials-section { background-color: #f0f5f9; }
+        
+        /* Grade de depoimentos com 'inline-block' */
+        .testimonials-grid { 
+            text-align: center; /* Centraliza os blocos */
+        }
+        .testimonial-card { 
+            background: #ffffff; 
+            padding: 30px; 
+            border-radius: 10px; 
+            border-left: 5px solid #3c6382; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+            display: inline-block; /* Em vez de grid */
+            width: 300px; /* Largura fixa */
+            margin: 15px;
+            vertical-align: top;
+            text-align: left; /* Alinha o texto de volta à esquerda */
+        }
+        .testimonial-card p { font-style: italic; margin-bottom: 15px; }
+        .testimonial-card h4 { font-weight: 600; color: #0A3d62; text-align: right; }
+        
+        .footer { background-color: #0A3d62; color: #f0f5f9; padding: 60px 0 20px; }
+        
+        /* Layout do rodapé com 'float' */
+        .footer-content { 
+            margin-bottom: 40px; 
+            overflow: auto; /* Clearfix hack */
+        }
+        .footer-info {
+            float: left;
+            width: 40%;
+        }
+        .footer-links {
+            float: left;
+            width: 30%;
+            padding-left: 20px;
+        }
+        .footer-contact {
+            float: left;
+            width: 30%;
+            padding-left: 20px;
+        }
+        
+        .footer-content h3, .footer-content h4 { color: #ffffff; margin-bottom: 15px; }
+        .footer-links ul { list-style: none; }
+        .footer-links a { color: #f0f5f9; text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: #ffffff; text-decoration: underline; }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid #3c6382; font-size: 0.9em; }
+        
+        /* Responsividade (Incompleta, como um iniciante faria) */
+        @media (max-width: 768px) { 
+            /* Quebra os floats do calendário e do rodapé */
+            .calendar-container,
+            .time-slots-container,
+            .footer-info,
+            .footer-links,
+            .footer-contact {
+                float: none;
+                width: 100%;
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .time-slots-container {
+                margin-top: 30px;
+            }
+        }
+    </style>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <div class="navbar"> <div class="container">
+            <a href="#" class="logo">MedConsult</a>
+            <ul class="nav-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#especialidades">Especialidades</a></li>
+                <li><a href="#agendar">Agendar</a></li>
+                <li><a href="#depoimentos">Pacientes</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="inicio" class="hero"> <div class="hero-content">
+            <h1>Sua Consulta Médica a um Clique de Distância</h1>
+            <p>Encontre especialistas e marque sua consulta online, sem filas e sem complicações. Cuidar da sua saúde nunca foi tão fácil.</p>
+            <a href="#agendar" class="btn-cta">Agendar Agora</a>
+        </div>
+    </div>
+
+    <div class="main-content"> <div id="especialidades" class="section specialties-section"> <div class="container">
+                <h2>Nossas Especialidades</h2>
+                <div class="specialties-cards">
+                    <div class="card"><div class="card-icon"><i class="fas fa-heart-pulse"></i></div><h3>Cardiologia</h3><p>Prevenção, diagnóstico e tratamento de doenças do coração.</p></div>
+                    <div class="card"><div class="card-icon"><i class="fas fa-user-doctor"></i></div><h3>Clínica Geral</h3><p>Atendimento primário e abrangente para todas as idades.</p></div>
+                    <div class="card"><div class="card-icon"><i class="fas fa-baby"></i></div><h3>Pediatria</h3><p>Acompanhamento dedicado à saúde e ao desenvolvimento das crianças.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="agendar" class="section"> <div class="container">
+                <h2>Faça seu Agendamento</h2>
+                <div class="booking-steps">
+                    
+                    <h3 class="step-title">1. Escolha a data e o horário</h3>
+                    <div class="booking-calendar-layout">
+                        <div class="calendar-container">
+                            <div class="calendar-header" id="calendar-month-year">Outubro 2025</div>
+                            <div class="calendar-days">
+                                <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span>
+                                <button disabled>28</button><button disabled>29</button><button disabled>30</button>
+                                <button disabled>1</button><button class="available">2</button><button class="available">3</button><button disabled>4</button>
+                                <button disabled>5</button><button class="available">6</button><button class="available">7</button><button class="available">8</button><button class="available">9</button><button class="available">10</button><button disabled>11</button>
+                                <button disabled>12</button><button class="available">13</button><button disabled>14</button><button class="available">15</button><button class="available">16</button><button disabled>17</button><button disabled>18</button>
+                                <button disabled>19</button><button disabled>20</button><button class="available">21</button><button disabled>22</button><button class="available">23</button><button disabled>24</button><button disabled>25</button>
+                                <button disabled>26</button><button class="available">27</button><button class="available">28</button><button class="available">29</button><button class="available">30</button><button disabled>31</button>
+                            </div>
+                        </div>
+                        <div class="time-slots-container">
+                            <h4 class="calendar-header">Horários disponíveis</h4>
+                            <div class="time-slots">
+                                <button>09:00</button> <button>10:00</button>
+                                <button disabled>11:00</button> <button>13:00</button>
+                                <button>14:00</button> <button>15:00</button>
+                                <button disabled>16:00</button> <button>17:00</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="step-title">2. Preencha seus dados</h3>
+                    <div class="booking-form-container">
+                        <form class="booking-form" id="booking-form">
+                            <input type="hidden" id="selected_date" name="selected_date">
+                            <input type="hidden" id="selected_time" name="selected_time">
+
+                            <input type="text" name="name" placeholder="Nome Completo do Paciente" required>
+                            <input type="email" name="email" placeholder="Seu melhor e-mail para contato" required>
+                            <input type="tel" name="phone" placeholder="Telefone (com DDD)" required>
+                            <select name="specialty" required>
+                                <option value="" disabled selected>Selecione a Especialidade</option>
+                                <option value="cardiologia">Cardiologia</option>
+                                <option value="clinica-geral">Clínica Geral</option>
+                                <option value="pediatria">Pediatria</option>
+                            </select>
+                            <button type="submit" class="btn-submit">Solicitar Agendamento</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="depoimentos" class="section testimonials-section"> <div class="container">
+                <h2>O que nossos pacientes dizem</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card"><p>"O agendamento online facilitou muito minha vida. Rápido e a consulta foi excelente."</p><h4>- Maria S.</h4></div>
+     
+                    <div class="testimonial-card"><p>"Finalmente uma clínica que usa a tecnologia para ajudar os pacientes. O processo foi simples e sem estresse."</p><h4>- Adrian.</h4></div>
+                </div>
+            </div>
+        </div>
+    </div> <div class="footer"> <div class="container">
+            <div class="footer-content">
+                <div class="footer-info"><h3>MedConsult</h3><p>Cuidando da sua saúde, facilitando sua vida.</p></div>
+                <div class="footer-links"><h4>Navegação</h4><ul><li><a href="#inicio">Início</a></li><li><a href="#especialidades">Especialidades</a></li><li><a href="#agendar">Agendar</a></li></ul></div>
+                <div class="footer-contact"><h4>Contato</h4><p><i class="fas fa-map-marker-alt"></i> Av. da Saúde, 123 - Varginha, MG</p><p><i class="fas fa-phone"></i> (35) 3221-1234</p></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 MedConsult. Todos os direitos reservados.</p></div>
+        </div>
+    </div>
+
+    <script>
+        // --- Interatividade do Calendário ---
+        var availableDays = document.querySelectorAll('.calendar-days .available');
+        var timeSlots = document.querySelectorAll('.time-slots button:not(:disabled)');
+        var hiddenDateInput = document.getElementById('selected_date');
+        var hiddenTimeInput = document.getElementById('selected_time');
+        var calendarMonthYear = document.getElementById('calendar-month-year').textContent;
+
+        availableDays.forEach(function(dayButton) {
+            dayButton.addEventListener('click', function() {
+                availableDays.forEach(function(btn) {
+                    btn.classList.remove('selected');
+                });
+                dayButton.classList.add('selected');
+                var day = dayButton.textContent;
+                hiddenDateInput.value = day + ' de ' + calendarMonthYear;
+            });
+        });
+
+        timeSlots.forEach(function(timeButton) {
+            timeButton.addEventListener('click', function() {
+                timeSlots.forEach(function(btn) {
+                    btn.classList.remove('selected');
+                });
+                timeButton.classList.add('selected');
+                hiddenTimeInput.value = timeButton.textContent;
+            });
+        });
+
+        // --- Lógica de Envio para o Google Sheets ---
+        var form = document.getElementById('booking-form');
+        var scriptURL = 'COLE_AQUI_A_NOVA_URL_DO_SEU_APP_DA_WEB'; // <-- PONTO CRÍTICO: SUBSTITUIR PELA SUA URL.
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!hiddenDateInput.value || !hiddenTimeInput.value) {
+                alert('Por favor, selecione um dia e um horário disponíveis.');
+                return;
+            }
+
+            var submitButton = form.querySelector('.btn-submit');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Enviando...';
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                .then(function(response) {
+                    if (response.ok) {
+                        alert('Agendamento enviado com sucesso! Entraremos em contato para confirmar.');
+                        form.reset();
+                        document.querySelectorAll('.calendar-days .selected, .time-slots .selected').forEach(function(el) {
+                            el.classList.remove('selected');
+                        });
+                    } else {
+                        throw new Error('Houve um problema com a resposta do servidor.');
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error!', error.message);
+                    alert('Ocorreu um erro. Por favor, tente novamente.');
+                })
+                .finally(function() {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Solicitar Agendamento';
+                });
+        });
+
+    </script>
+
+</body>
+</html>
